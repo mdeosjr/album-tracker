@@ -1,5 +1,10 @@
+import { apiToken } from './services/apiToken'
+
 function App() {
-  return <h1>Hello World!</h1>
+	const token = apiToken()
+	console.log(token)
+	
+	return <h1>{token}</h1>
 }
 
 export default App
