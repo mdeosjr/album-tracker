@@ -35,8 +35,7 @@ body {
   min-height: 100vh;
   text-rendering: optimizeSpeed;
   line-height: 1.5;
-  font-family: 'Poppins', sans-serif;
-  background-color: #FAFAFA;
+  background-color: #191414;
 }
 
 /* A elements that don't have a class get default styles */
@@ -51,12 +50,19 @@ picture {
   display: block;
 }
 
-/* Inherit fonts for inputs and buttons */
+/* Font for texts */
 input,
 button,
 textarea,
-select {
-  font: inherit;
+select,
+h1,
+h2,
+h3,
+h4,
+p,
+a,
+span {
+  font-family: 'Work Sans', sans-serif;
 }
 
 /* Remove all animations, transitions and smooth scroll for people that prefer not to see them */

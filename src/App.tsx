@@ -1,10 +1,17 @@
-import { apiToken } from './services/apiToken'
+import React from 'react'
+import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import { SignIn, SignUp, Home } from './pages/index'
 
 function App() {
-	const token = apiToken()
-	console.log(token)
-	
-	return <h1>{token}</h1>
+   return (
+      <BrowserRouter>
+         <Routes>
+            <Route path='/' element={<SignIn />} />
+            <Route path='/sign-up' element={<SignUp />} />
+            <Route path='/home' element={<Home/>} />
+         </Routes>
+      </BrowserRouter>
+   )
 }
 
 export default App

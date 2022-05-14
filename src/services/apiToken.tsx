@@ -1,24 +1,21 @@
 import { useEffect, useState } from 'react'
-import axios from 'axios'
 
 export function apiToken() {
    const [token, setToken] = useState('')
 
+   const searchParams = new URLSearchParams()
+   searchParams.append('grant_type', 'client_credentials')
+   searchParams.append('client_id', `${import.meta.env.VITE_CLIENT_ID}`)
+   searchParams.append('client_secret', `${import.meta.env.VITE_CLIENT_SECRET}`)
+   const url = `https://accounts.spotify.com/api/token?${searchParams}`
+
    useEffect(() => {
-      axios('https://accounts.spotify.com/api/token', {
+      fetch(url, {
+         method: 'POST',
          headers: {
-            Authorization:
-               'Basic ' +
-               btoa(
-                  import.meta.env.VITE_CLIENT_ID +
-                     ':' +
-                     import.meta.env.VITE_CLIENT_SECRET
-               ),
-            'content-type': 'application/x-www-form-urlencoded'
-         },
-         data: 'grant_type=client_credentials',
-         method: 'POST'
-      }).then((response) => setToken(response.data.access_token))
+            'Content-Type': 'application/x-www-form-urlencoded'
+         }
+      }).then(res => res.json().then(data => setToken(data.access_token)))
    }, [])
 
    return token
