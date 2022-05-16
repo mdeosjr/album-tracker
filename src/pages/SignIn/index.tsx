@@ -5,23 +5,43 @@ import { styles } from '../../components/GlobalStyles'
 import StyledLink from '../../components/StyledLink'
 import { Box, Typography } from '@mui/material'
 import { TailSpin } from 'react-loader-spinner'
+import useAuth from '../../hooks/useAuth'
+import { api } from '../../services/api'
+import { AxiosError } from 'axios'
+
+export interface LoginData {
+   email: string
+   password: string
+}
 
 function SignIn() {
-   const [userData, setUserData] = useState({
+   const [userData, setUserData] = useState<LoginData>({
       email: '',
       password: ''
    })
    const [input, setInput] = useState(true)
    const [button, setButton] = useState(true)
    let navigate = useNavigate()
+   const { signIn, setApiToken } = useAuth()
 
-   function login(e: React.FormEvent) {
+   async function login(e: React.FormEvent) {
       e.preventDefault()
 
-      setButton(false)
-      setInput(false)
+      try {
+         const { data } = await api.login({ ...userData })
+         setButton(false)
+         setInput(false)
+         loginSucess(data)
+      } catch (e: Error | AxiosError | any) {
+         alert(e)
+         setButton(true)
+         setInput(true)
+      }
+   }
 
-      console.log('oi')
+   function loginSucess(token: string) {
+      signIn(token)
+      navigate('/home')
    }
 
    function handleInput(e: React.ChangeEvent<HTMLInputElement>) {
