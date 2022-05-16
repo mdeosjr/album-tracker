@@ -5,9 +5,18 @@ import StyledLink from '../../components/StyledLink'
 import { Box, Typography } from '@mui/material'
 import { TailSpin } from 'react-loader-spinner'
 import { styles } from '../../components/GlobalStyles'
+import { api } from '../../services/api'
+import { AxiosError } from 'axios'
+
+export interface UserData {
+   name: string
+   email: string
+   password: string
+}
 
 function SignUp() {
-   const [userData, setUserData] = useState({
+   const [userData, setUserData] = useState<UserData>({
+      name: '',
       email: '',
       password: ''
    })
@@ -16,22 +25,29 @@ function SignUp() {
    const [button, setButton] = useState(true)
    let navigate = useNavigate()
 
-   function register(e: React.FormEvent) {
+   async function register(e: React.FormEvent) {
       e.preventDefault()
 
       if (passwordConfirm !== userData.password) {
          return alert('Password does not match')
       }
 
-      setButton(false)
-      setInput(false)
+      try {
+         setButton(false)
+         setInput(false)
+         await api.createUser({ ...userData })
+         navigate('/')
+      } catch (e: Error | AxiosError | any) {
+         registerError(e)
+      }
    }
 
    function handleInput(e: React.ChangeEvent<HTMLInputElement>) {
       setUserData({ ...userData, [e.target.name]: e.target.value })
    }
 
-   function registerError() {
+   function registerError(e: Error | AxiosError | any) {
+      alert('Error: ' + e.response.data)
       setButton(true)
       setInput(true)
    }
@@ -42,6 +58,15 @@ function SignUp() {
             Get Started
          </Typography>
          <Form onSubmit={register}>
+            <Input
+               required
+               active={input}
+               type='name'
+               placeholder='name'
+               name='name'
+               onChange={handleInput}
+               value={userData.name}
+            />
             <Input
                required
                active={input}
@@ -64,7 +89,7 @@ function SignUp() {
                required
                active={input}
                type='password'
-               placeholder='confirme your password'
+               placeholder='confirm your password'
                name='passwordConfirm'
                onChange={e => setPasswordConfirm(e.target.value)}
                value={passwordConfirm}
