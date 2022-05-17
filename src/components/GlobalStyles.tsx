@@ -15,5 +15,13 @@ export const styles = {
    },
    button: {
       color: '#1DB954'
+   },
+   searchIcon: {
+      fontSize: 30,
+      color: 'white',
+      position: 'absolute',
+      top: 13,
+      right: 15,
+      cursor: 'pointer'
    }
 }

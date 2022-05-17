@@ -1,5 +1,4 @@
 import { createContext, useState } from 'react'
-import { apiToken } from '../services/apiToken'
 
 interface AuthContextInterface {
    auth: string | null
