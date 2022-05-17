@@ -1,4 +1,4 @@
-import Home from './Main'
+import Home from './Home'
 import SignIn from './SignIn'
 import SignUp from './SignUp'
 

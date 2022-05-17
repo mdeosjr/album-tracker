@@ -22,7 +22,7 @@ function SignIn() {
    const [input, setInput] = useState(true)
    const [button, setButton] = useState(true)
    let navigate = useNavigate()
-   const { signIn, setApiToken } = useAuth()
+   const { signIn } = useAuth()
 
    async function login(e: React.FormEvent) {
       e.preventDefault()

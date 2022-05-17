@@ -3,6 +3,9 @@ import useAuth from '../../hooks/useAuth'
 import { api } from '../../services/api'
 import { apiToken } from '../../services/apiToken'
 import { useNavigate } from 'react-router-dom'
+import SideMenu from '../../components/SideMenu'
+import MainPage from '../../components/MainPage'
+import { Box } from '@mui/material'
 
 function Home() {
    const { auth, setApiToken } = useAuth()
@@ -21,7 +24,12 @@ function Home() {
          })
    }, [])
 
-   return <h1>Home Page</h1>
+   return (
+      <Box sx={{display: 'flex', flexDirection: 'row'}}>
+         <SideMenu />
+         <MainPage />
+      </Box>
+   )
 }
 
 export default Home
