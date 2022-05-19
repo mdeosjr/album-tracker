@@ -2,7 +2,7 @@ import styled from 'styled-components'
 
 const OverallMenu = styled.div`
    height: 100vh;
-   width: 300px;
+   width: 350px;
    border-right: 1px solid white;
    padding: 20px;
    display: flex;
