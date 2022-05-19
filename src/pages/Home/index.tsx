@@ -25,7 +25,13 @@ function Home() {
    }, [])
 
    return (
-      <Box sx={{display: 'flex', flexDirection: 'row'}}>
+      <Box
+         sx={{
+            height: '100vh',
+            display: 'flex',
+            flexDirection: 'row'
+         }}
+      >
          <SideMenu />
          <MainPage />
       </Box>

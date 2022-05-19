@@ -23,5 +23,10 @@ export const styles = {
       top: 13,
       right: 15,
       cursor: 'pointer'
+   },
+   tableTitle: {
+      color: '#1DB954',
+      font: 'italic bold 60px Work Sans',
+      letterSpacing: 2.5,
    }
 }
