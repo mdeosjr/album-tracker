@@ -21,12 +21,14 @@ export const styles = {
       color: 'white',
       position: 'absolute',
       top: 13,
-      right: 15,
-      cursor: 'pointer'
+      right: 15
    },
    tableTitle: {
       color: '#1DB954',
-      font: 'italic bold 60px Work Sans',
+      fontStyle: 'italic',
+      fontWeight: 'bold',
+      fontFamily: 'Work Sans',
+      fontSize: '3.5vw',
       letterSpacing: 2.5,
    }
 }

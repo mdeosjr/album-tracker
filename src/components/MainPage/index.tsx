@@ -1,7 +1,8 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Container, SearchField, SearchBar } from './styles'
 import { styles } from '../GlobalStyles'
 import SearchRoundedIcon from '@mui/icons-material/SearchRounded'
+import ConfirmationDialogRaw from '../AlbumCard'
 import { spotifyApi } from '../../services/spotifyApi'
 import { Box } from '@mui/system'
 import {
@@ -9,20 +10,30 @@ import {
    CardActionArea,
    CardContent,
    CardMedia,
-   Typography
+   Typography,
+   Grid,
 } from '@mui/material'
+import AlbumCard from '../AlbumCard'
 
 function MainPage() {
-   const [album, setAlbum] = useState('')
+   const [searchAlbumName, setSearchAlbumName] = useState('')
    const [searchedAlbum, setSearchedAlbum] = useState<any[]>([])
    const token = localStorage.getItem('API_TOKEN')!
    console.log(searchedAlbum)
 
-   function searchAlbum(albumName: string) {
-      if (!albumName) return setSearchedAlbum([])
-      spotifyApi
-         .getAlbum(token, albumName)
-         .then(res => setSearchedAlbum(res.data.albums.items))
+   function getAlbumId(e: React.KeyboardEvent<HTMLInputElement>) {
+      if (e.key === 'Enter') {
+         e.preventDefault()
+         if (!searchAlbumName) return setSearchedAlbum([])
+
+         spotifyApi
+            .getAlbum(token, searchAlbumName)
+            .then(res => setSearchedAlbum(res.data.albums.items))
+      }
+   }
+
+   function getTracks(albumId: string) {
+      spotifyApi.getAlbumTracks(token, albumId).then(res => console.log(res))
    }
 
    return (
@@ -31,29 +42,24 @@ function MainPage() {
             <SearchField
                type='text'
                placeholder='Search for an album...'
-               onChange={e => setAlbum(e.target.value)}
-               value={album}
+               onChange={e => setSearchAlbumName(e.target.value)}
+               onKeyDown={e => getAlbumId(e)}
+               value={searchAlbumName}
             />
-            <SearchRoundedIcon
-               type='submit'
-               sx={styles.searchIcon}
-               onClick={() => searchAlbum(album)}
-            />
+            <SearchRoundedIcon type='image' sx={styles.searchIcon} />
          </SearchBar>
          {searchedAlbum.length === 0 ? (
-            <Box
+            <Grid
+               container
                sx={{
-                  padding: '40px 0 20px',
+                  paddingTop: '40px',
                   height: '90vh',
                   display: 'flex',
-                  justifyContent: 'space-between'
+                  justifyContent: 'space-between',
+                  gap: '0.5vw'
                }}
             >
-               <Box
-                  sx={{
-                     width: '500px'
-                  }}
-               >
+               <Grid item xs={3.5}>
                   <Typography
                      variant='h2'
                      component='h2'
@@ -61,8 +67,8 @@ function MainPage() {
                   >
                      LISTENED
                   </Typography>
-               </Box>
-               <Box sx={{ width: '500px' }}>
+               </Grid>
+               <Grid item xs={4}>
                   <Typography
                      variant='h2'
                      component='h2'
@@ -70,8 +76,8 @@ function MainPage() {
                   >
                      LISTENING
                   </Typography>
-               </Box>
-               <Box sx={{ width: '500px' }}>
+               </Grid>
+               <Grid item xs={3.5}>
                   <Typography
                      variant='h2'
                      component='h2'
@@ -79,8 +85,8 @@ function MainPage() {
                   >
                      TO LISTEN
                   </Typography>
-               </Box>
-            </Box>
+               </Grid>
+            </Grid>
          ) : (
             <Box
                sx={{
@@ -97,41 +103,7 @@ function MainPage() {
                }}
             >
                {searchedAlbum.map(album => (
-                  <Card
-                     sx={{
-                        maxWidth: 300,
-                        backgroundColor: 'black',
-                        ':hover': { border: '1px solid #1DB954' }
-                     }}
-                     key={album.id}
-                  >
-                     <CardActionArea>
-                        <CardMedia
-                           component='img'
-                           height='300'
-                           image={album.images[1].url}
-                           alt='album info'
-                        />
-                        <CardContent>
-                           <Typography
-                              gutterBottom
-                              variant='h5'
-                              component='div'
-                              fontFamily='Work Sans'
-                              color='#1DB954'
-                           >
-                              {album.name}
-                           </Typography>
-                           <Typography
-                              variant='body2'
-                              color='#1DB954'
-                              fontFamily='Work Sans'
-                           >
-                              {album.artists[0].name}
-                           </Typography>
-                        </CardContent>
-                     </CardActionArea>
-                  </Card>
+                  <AlbumCard album={album} key={album.id}/>
                ))}
             </Box>
          )}
