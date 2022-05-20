@@ -2,7 +2,8 @@ import axios from 'axios'
 import { LoginData } from '../pages/SignIn'
 import { UserData } from '../pages/SignUp'
 
-const BASE_URL = 'https://album-tracker-api.herokuapp.com'
+const BASE_URL = 'http://localhost:5000'
+//https://album-tracker-api.herokuapp.com
 
 function createConfig(token: string) {
    return {

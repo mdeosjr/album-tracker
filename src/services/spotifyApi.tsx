@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-const BASE_URL = 'https://api.spotify.com/v1/search'
+const BASE_URL = 'https://api.spotify.com/v1'
 
 function createConfig(token: string) {
    return {
@@ -11,10 +11,16 @@ function createConfig(token: string) {
 }
 
 async function getAlbum(token: string, albumName: string) {
-    const config = createConfig(token)
-    return axios.get(`${BASE_URL}?q=${albumName}&type=album`, config)
+   const config = createConfig(token)
+   return axios.get(`${BASE_URL}/search?q=${albumName}&type=album`, config)
+}
+
+async function getAlbumTracks(token: string, albumId: string) {
+   const config = createConfig(token)
+   return axios.get(`${BASE_URL}/albums/${albumId}/tracks`, config)
 }
 
 export const spotifyApi = {
-    getAlbum
+   getAlbum,
+   getAlbumTracks
 }
