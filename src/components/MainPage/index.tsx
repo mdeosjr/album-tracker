@@ -2,38 +2,49 @@ import { useEffect, useState } from 'react'
 import { Container, SearchField, SearchBar } from './styles'
 import { styles } from '../GlobalStyles'
 import SearchRoundedIcon from '@mui/icons-material/SearchRounded'
-import ConfirmationDialogRaw from '../AlbumCard'
 import { spotifyApi } from '../../services/spotifyApi'
 import { Box } from '@mui/system'
-import {
-   Card,
-   CardActionArea,
-   CardContent,
-   CardMedia,
-   Typography,
-   Grid,
-} from '@mui/material'
+import { Typography, Grid } from '@mui/material'
 import AlbumCard from '../AlbumCard'
+import { ListenedList, ListeningList, ToListenList } from '../Lists/index'
+import useAuth from '../../hooks/useAuth'
+import { api } from '../../services/api'
+
+export interface List {
+   album: {
+      artist: string
+      list: string
+      name: string
+   }
+   albumId: string
+}
 
 function MainPage() {
-   const [searchAlbumName, setSearchAlbumName] = useState('')
    const [searchedAlbum, setSearchedAlbum] = useState<any[]>([])
-   const token = localStorage.getItem('API_TOKEN')!
-   console.log(searchedAlbum)
+   const [userAlbums, setUserAlbums] = useState<List[]>([])
+   const [searchAlbumName, setSearchAlbumName] = useState('')
+   const { auth, apiToken, reloadHome } = useAuth()
 
-   function getAlbumId(e: React.KeyboardEvent<HTMLInputElement>) {
-      if (e.key === 'Enter') {
-         e.preventDefault()
-         if (!searchAlbumName) return setSearchedAlbum([])
+   useEffect(() => {
+      api.getUserAlbums(auth).then(res => {
+         setUserAlbums(res.data)
+         setSearchAlbumName('')
+         setSearchedAlbum([])
+      })
+   }, [reloadHome])
 
-         spotifyApi
-            .getAlbum(token, searchAlbumName)
-            .then(res => setSearchedAlbum(res.data.albums.items))
-      }
-   }
+   const listenedList = userAlbums.filter(a => a.album.list === 'LISTENED')
+   const listeningList = userAlbums.filter(a => a.album.list === 'LISTENING')
+   const toListenList = userAlbums.filter(a => a.album.list === 'TO_LISTEN')
 
-   function getTracks(albumId: string) {
-      spotifyApi.getAlbumTracks(token, albumId).then(res => console.log(res))
+   function getSearchedAlbum(albumName: string) {
+      setSearchAlbumName(albumName)
+
+      if (albumName === '') return setSearchedAlbum([])
+
+      spotifyApi
+         .getAlbum(apiToken, albumName)
+         .then(res => setSearchedAlbum(res.data.albums.items))
    }
 
    return (
@@ -42,8 +53,7 @@ function MainPage() {
             <SearchField
                type='text'
                placeholder='Search for an album...'
-               onChange={e => setSearchAlbumName(e.target.value)}
-               onKeyDown={e => getAlbumId(e)}
+               onChange={e => getSearchedAlbum(e.target.value)}
                value={searchAlbumName}
             />
             <SearchRoundedIcon type='image' sx={styles.searchIcon} />
@@ -67,6 +77,7 @@ function MainPage() {
                   >
                      LISTENED
                   </Typography>
+                  <ListenedList albums={listenedList} />
                </Grid>
                <Grid item xs={4}>
                   <Typography
@@ -76,6 +87,7 @@ function MainPage() {
                   >
                      LISTENING
                   </Typography>
+                  <ListeningList albums={listeningList} />
                </Grid>
                <Grid item xs={3.5}>
                   <Typography
@@ -85,6 +97,7 @@ function MainPage() {
                   >
                      TO LISTEN
                   </Typography>
+                  <ToListenList albums={toListenList} />
                </Grid>
             </Grid>
          ) : (
@@ -103,7 +116,7 @@ function MainPage() {
                }}
             >
                {searchedAlbum.map(album => (
-                  <AlbumCard album={album} key={album.id}/>
+                  <AlbumCard album={album} key={album.id} />
                ))}
             </Box>
          )}

@@ -2,7 +2,10 @@ import { createContext, useState } from 'react'
 
 interface AuthContextInterface {
    auth: string | null
-   setApiToken: (token: string) => void
+   apiToken: string | null
+   reloadHome: boolean | null
+   setReloadHome: React.Dispatch<React.SetStateAction<boolean | null>>
+   getApiToken: (token: string) => void
    signIn: (token: string) => void
    signOut: () => void
 }
@@ -17,6 +20,8 @@ const persistedAuth = localStorage.getItem('AUTH')
 
 export function AuthProvider({ children }: Props) {
    const [auth, setAuth] = useState<string | null>(persistedAuth)
+   const [apiToken, setApiToken] = useState<string | null>(null)
+   const [reloadHome, setReloadHome] = useState<boolean | null>(false)
 
    function signIn(token: string) {
       setAuth(token)
@@ -28,12 +33,23 @@ export function AuthProvider({ children }: Props) {
       localStorage.removeItem('AUTH')
    }
 
-   function setApiToken(token: string) {
+   function getApiToken(token: string) {
+      setApiToken(token)
       localStorage.setItem('API_TOKEN', token)
    }
 
    return (
-      <AuthContext.Provider value={{ auth, setApiToken, signIn, signOut }}>
+      <AuthContext.Provider
+         value={{
+            auth,
+            getApiToken,
+            apiToken,
+            signIn,
+            signOut,
+            reloadHome,
+            setReloadHome
+         }}
+      >
          {children}
       </AuthContext.Provider>
    )

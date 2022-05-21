@@ -1,12 +1,6 @@
-import * as React from 'react'
-import Button from '@mui/material/Button'
+import { useState, useEffect } from 'react'
 import DialogTitle from '@mui/material/DialogTitle'
-import DialogContent from '@mui/material/DialogContent'
-import DialogActions from '@mui/material/DialogActions'
 import Dialog from '@mui/material/Dialog'
-import RadioGroup from '@mui/material/RadioGroup'
-import Radio from '@mui/material/Radio'
-import FormControlLabel from '@mui/material/FormControlLabel'
 import {
    Card,
    CardActionArea,
@@ -17,19 +11,17 @@ import {
    ListItemText,
    Typography
 } from '@mui/material'
+import { spotifyApi } from '../services/spotifyApi'
+import useAuth from '../hooks/useAuth'
+import { api } from '../services/api'
 
 export interface SimpleDialogProps {
    open: boolean
-   selectedValue: string
    onClose: (value: string) => void
 }
 
 function SimpleDialog(props: SimpleDialogProps) {
-   const { onClose, selectedValue, open } = props
-
-   const handleClose = () => {
-      onClose(selectedValue)
-   }
+   const { onClose, open } = props
 
    const handleListItemClick = (value: string) => {
       onClose(value)
@@ -37,27 +29,29 @@ function SimpleDialog(props: SimpleDialogProps) {
    }
 
    return (
-      <Dialog onClose={handleClose} open={open}>
-         <DialogTitle>Select a list</DialogTitle>
-         <List sx={{ pt: 0 }}>
+      <Dialog onClose={onClose} open={open}>
+         <DialogTitle sx={{ fontFamily: 'Work Sans' }}>
+            Select a list
+         </DialogTitle>
+         <List>
             <ListItem
                button
-               onClick={() => handleListItemClick('Listened')}
-               key={'Listened'}
+               onClick={() => handleListItemClick('LISTENED')}
+               key={'LISTENED'}
             >
                <ListItemText primary={'Listened'} />
             </ListItem>
             <ListItem
                button
-               onClick={() => handleListItemClick('Listening')}
-               key={'Listening'}
+               onClick={() => handleListItemClick('LISTENING')}
+               key={'LISTENING'}
             >
                <ListItemText primary={'Listening'} />
             </ListItem>
             <ListItem
                button
-               onClick={() => handleListItemClick('To Listen')}
-               key={'To Listen'}
+               onClick={() => handleListItemClick('TO_LISTEN')}
+               key={'TO_LISTEN'}
             >
                <ListItemText primary={'To Listen'} />
             </ListItem>
@@ -67,17 +61,43 @@ function SimpleDialog(props: SimpleDialogProps) {
 }
 
 export default function AlbumCard({ album }: any) {
-   const [open, setOpen] = React.useState(false)
-   const [selectedValue, setSelectedValue] = React.useState('Listened')
+   const [open, setOpen] = useState(false)
+   const { apiToken, auth } = useAuth()
+
+   function getTracks(albumId: string, list: string) {
+      spotifyApi
+         .getAlbumTracks(apiToken, albumId)
+         .then(res => {
+            const albumData = {
+               spotifyAlbumId: album.id,
+               name: album.name,
+               artist: album.artists[0].name,
+               url: album.external_urls.spotify,
+               list,
+               tracks: res.data.items.map(
+                  (track: { id: string; name: string; external_urls: any }) => {
+                     return {
+                        spotifyTrackId: track.id,
+                        name: track.name,
+                        url: track.external_urls.spotify,
+                        albumId: album.id
+                     }
+                  }
+               )
+            }
+
+            api.saveAlbum(auth, albumData)
+         })
+         .catch(err => console.log(err))
+   }
 
    const handleClickOpen = () => {
       setOpen(true)
    }
 
-   const handleClose = (value: string) => {
+   const handleClose = (list: string) => {
       setOpen(false)
-      setSelectedValue(value)
-      console.log(album.id)
+      getTracks(album.id, list)
    }
 
    return (
@@ -119,11 +139,7 @@ export default function AlbumCard({ album }: any) {
                </CardContent>
             </CardActionArea>
          </Card>
-         <SimpleDialog
-            selectedValue={selectedValue}
-            open={open}
-            onClose={handleClose}
-         />
+         <SimpleDialog open={open} onClose={handleClose} />
       </>
    )
 }
