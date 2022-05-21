@@ -20,6 +20,7 @@ const Logout = styled.div`
 const Logo = styled.img`
    height: 50px;
    width: 50px;
+   cursor: pointer;
 `
 
 export { OverallMenu, Logout, Logo }

@@ -2,7 +2,7 @@ import axios from 'axios'
 
 const BASE_URL = 'https://api.spotify.com/v1'
 
-function createConfig(token: string) {
+function createConfig(token: string | null) {
    return {
       headers: {
          Authorization: `Bearer ${token}`
@@ -10,12 +10,12 @@ function createConfig(token: string) {
    }
 }
 
-async function getAlbum(token: string, albumName: string) {
+async function getAlbum(token: string | null, albumName: string) {
    const config = createConfig(token)
    return axios.get(`${BASE_URL}/search?q=${albumName}&type=album`, config)
 }
 
-async function getAlbumTracks(token: string, albumId: string) {
+async function getAlbumTracks(token: string | null, albumId: string) {
    const config = createConfig(token)
    return axios.get(`${BASE_URL}/albums/${albumId}/tracks`, config)
 }

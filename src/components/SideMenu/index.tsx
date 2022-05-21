@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router-dom'
 import useAuth from '../../hooks/useAuth'
 
 function SideMenu() {
-   const { signOut } = useAuth()
+   const { signOut, setReloadHome, reloadHome } = useAuth()
    let navigate = useNavigate()
 
    function logout() {
@@ -17,7 +17,12 @@ function SideMenu() {
 
    return (
       <OverallMenu>
-         <Logo src={logo} />
+         <Logo
+            src={logo}
+            onClick={() => {
+               setReloadHome(!reloadHome)
+            }}
+         />
          <Logout>
             <Typography sx={{ color: 'white', fontFamily: 'Work Sans' }}>
                Logout

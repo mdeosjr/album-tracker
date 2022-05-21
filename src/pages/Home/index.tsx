@@ -8,14 +8,14 @@ import MainPage from '../../components/MainPage'
 import { Box } from '@mui/material'
 
 function Home() {
-   const { auth, setApiToken } = useAuth()
+   const { auth, getApiToken } = useAuth()
    let navigate = useNavigate()
 
    useEffect(() => {
       api.validateToken(auth!)
          .then(response => {
             apiToken().then(res =>
-               res.json().then(data => setApiToken(data.access_token))
+               res.json().then(data => getApiToken(data.access_token))
             )
          })
          .catch(err => {
