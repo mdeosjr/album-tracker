@@ -2,11 +2,12 @@ import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Form, Input, Buttons, Button } from '../../components/Form'
 import StyledLink from '../../components/StyledLink'
-import { Box, Typography } from '@mui/material'
+import { Alert, Box, Typography } from '@mui/material'
 import { TailSpin } from 'react-loader-spinner'
 import { styles } from '../../components/GlobalStyles'
 import { api } from '../../services/api'
 import { AxiosError } from 'axios'
+import { ToastContainer, toast } from 'react-toastify'
 
 export interface UserData {
    name: string
@@ -47,7 +48,7 @@ function SignUp() {
    }
 
    function registerError(e: Error | AxiosError | any) {
-      alert('Error: ' + e.response.data)
+      <Alert severity='error'>`${e.response.data}`</Alert>
       setButton(true)
       setInput(true)
    }

@@ -6,7 +6,7 @@ import { spotifyApi } from '../../services/spotifyApi'
 import { Box } from '@mui/system'
 import { Typography, Grid } from '@mui/material'
 import AlbumCard from '../AlbumCard'
-import { ListenedList, ListeningList, ToListenList } from '../Lists/index'
+import { ListenedList, ListeningList, ToListenList } from '../Lists'
 import useAuth from '../../hooks/useAuth'
 import { api } from '../../services/api'
 
@@ -14,7 +14,8 @@ export interface List {
    album: {
       artist: string
       list: string
-      name: string
+      name: string 
+      cover: string
    }
    albumId: string
 }
