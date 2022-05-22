@@ -19,6 +19,7 @@
     "react-dom": "^18.1.0",
     "react-loader-spinner": "^6.0.0-0",
     "react-router-dom": "^6.3.0",
+    "react-toastify": "^9.0.1",
     "spotify-web-api-js": "^1.5.2",
     "spotify-web-api-node": "^5.0.2",
     "styled-components": "^5.3.5"

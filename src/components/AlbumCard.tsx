@@ -72,6 +72,7 @@ export default function AlbumCard({ album }: any) {
                spotifyAlbumId: album.id,
                name: album.name,
                artist: album.artists[0].name,
+               cover: album.images[0].url,
                url: album.external_urls.spotify,
                list,
                tracks: res.data.items.map(
