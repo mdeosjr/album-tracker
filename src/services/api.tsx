@@ -2,8 +2,8 @@ import axios from 'axios'
 import { LoginData } from '../pages/SignIn'
 import { UserData } from '../pages/SignUp'
 
-//const BASE_URL = 'http://localhost:5000'
-const BASE_URL = 'https://album-tracker-api.herokuapp.com'
+const BASE_URL = 'http://localhost:5000'
+//const BASE_URL = 'https://album-tracker-api.herokuapp.com'
 
 function createConfig(token: string | null) {
    return {
@@ -36,10 +36,16 @@ async function getUserAlbums(token: string | null) {
    return axios.get(`${BASE_URL}/get-albums`, config)
 }
 
+async function deleteUserAlbum(token: string | null, albumId: string) {
+   const config = createConfig(token)
+   return axios.delete(`${BASE_URL}/delete-album/${albumId}`, config)
+}
+
 export const api = {
    createUser,
    login,
    validateToken,
    saveAlbum,
-   getUserAlbums
+   getUserAlbums,
+   deleteUserAlbum
 }
