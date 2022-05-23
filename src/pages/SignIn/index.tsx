@@ -3,11 +3,13 @@ import { useNavigate } from 'react-router-dom'
 import { Form, Input, Buttons, Button } from '../../components/Form'
 import { styles } from '../../components/GlobalStyles'
 import StyledLink from '../../components/StyledLink'
-import { Box, Typography } from '@mui/material'
-import { TailSpin } from 'react-loader-spinner'
+import { Box, CircularProgress, Typography } from '@mui/material'
 import useAuth from '../../hooks/useAuth'
 import { api } from '../../services/api'
 import { AxiosError } from 'axios'
+import logo from '../../../favicon/logo.png'
+import { ToastContainer, toast } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 
 export interface LoginData {
    email: string
@@ -28,12 +30,21 @@ function SignIn() {
       e.preventDefault()
 
       try {
-         const { data } = await api.login({ ...userData })
          setButton(false)
          setInput(false)
+         const { data } = await api.login({ ...userData })
          loginSucess(data)
       } catch (e: Error | AxiosError | any) {
-         alert(e)
+         toast.warn('User or password incorrect!', {
+            position: 'top-right',
+            autoClose: 1800,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: false,
+            draggable: false,
+            progress: undefined,
+            theme: 'dark'
+         })
          setButton(true)
          setInput(true)
       }
@@ -50,44 +61,46 @@ function SignIn() {
 
    return (
       <Box sx={styles.container}>
-         <Typography sx={styles.title} variant='h4' component='h1'>
-            Log in
-         </Typography>
-         <Form onSubmit={login}>
-            <Input
-               required
-               active={input}
-               type='email'
-               placeholder='email'
-               name='email'
-               onChange={handleInput}
-               value={userData.email}
+         <Box sx={styles.logoContainer}>
+            <img
+               src={logo}
+               alt='Album Tracker logo'
+               width='400px'
+               height='400px'
             />
-            <Input
-               required
-               active={input}
-               type='password'
-               placeholder='password'
-               name='password'
-               onChange={handleInput}
-               value={userData.password}
-            />
-            <Buttons>
-               <StyledLink to='/sign-up'>Not registered?</StyledLink>
-               <Button type='submit' active={button}>
-                  {button ? (
-                     'LOG IN'
-                  ) : (
-                     <TailSpin
-                        ariaLabel='loading-indicator'
-                        color='#FFFFFF'
-                        height={35}
-                        width={35}
-                     />
-                  )}
-               </Button>
-            </Buttons>
-         </Form>
+         </Box>
+         <Box sx={{ width: '30vw' }}>
+            <Typography sx={styles.title} variant='h4' component='h1'>
+               Log in
+            </Typography>
+            <Form onSubmit={login}>
+               <Input
+                  required
+                  active={input}
+                  type='email'
+                  placeholder='email'
+                  name='email'
+                  onChange={handleInput}
+                  value={userData.email}
+               />
+               <Input
+                  required
+                  active={input}
+                  type='password'
+                  placeholder='password'
+                  name='password'
+                  onChange={handleInput}
+                  value={userData.password}
+               />
+               <Buttons>
+                  <StyledLink to='/sign-up'>Not registered?</StyledLink>
+                  <Button type='submit' active={button}>
+                     {button ? 'LOG IN' : <CircularProgress color='inherit' />}
+                  </Button>
+               </Buttons>
+            </Form>
+         </Box>
+         <ToastContainer />
       </Box>
    )
 }

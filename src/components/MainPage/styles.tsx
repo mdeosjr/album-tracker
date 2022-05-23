@@ -1,5 +1,4 @@
 import styled from 'styled-components'
-import { Typography } from '@mui/material'
 
 const Container = styled.div`
    width: 100%;

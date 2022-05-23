@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useEffect } from 'react'
 import useAuth from '../../hooks/useAuth'
 import { api } from '../../services/api'
 import { apiToken } from '../../services/apiToken'

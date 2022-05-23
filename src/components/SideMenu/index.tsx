@@ -2,16 +2,15 @@ import { OverallMenu, Logout, Logo } from './styles'
 import ExitToAppRoundedIcon from '@mui/icons-material/ExitToAppRounded'
 import {
    Typography,
-   Box,
    List,
    ListItem,
    ListItemButton,
-   ListItemIcon,
    ListItemText
 } from '@mui/material'
 import logo from '../../../favicon/logo.png'
 import { useNavigate } from 'react-router-dom'
 import useAuth from '../../hooks/useAuth'
+import { styles } from '../../components/GlobalStyles'
 
 function SideMenu() {
    const { signOut, setReloadHome, reloadHome } = useAuth()
@@ -29,23 +28,26 @@ function SideMenu() {
             src={logo}
             onClick={() => {
                setReloadHome(!reloadHome)
+               navigate('/home')
             }}
          />
          <Typography sx={{ font: 'bold 20px Work Sans', color: '#1DB954' }}>
             Album Tracker
          </Typography>
-         <List
-            sx={{
-               width: '100%',
-               paddingTop: '78px',
-               display: 'flex',
-               flexDirection: 'column',
-               alignItems: 'flex-start',
-               gap: '25px'
-            }}
-         >
+         <List sx={styles.sideMenuList}>
             <ListItem key={'profile'} disablePadding>
-               <ListItemButton>
+               <ListItemButton
+                  sx={{
+                     ':hover': {
+                        backgroundColor: '#191414',
+                        borderRadius: '4px'
+                     }
+                  }}
+                  onClick={() => {
+                     setReloadHome(!reloadHome)
+                     navigate('/home')
+                  }}
+               >
                   <ListItemText
                      disableTypography
                      sx={{
@@ -58,7 +60,14 @@ function SideMenu() {
                </ListItemButton>
             </ListItem>
             <ListItem key={'friends'} disablePadding>
-               <ListItemButton>
+               <ListItemButton
+                  sx={{
+                     ':hover': {
+                        backgroundColor: '#191414',
+                        borderRadius: '4px'
+                     }
+                  }}
+               >
                   <ListItemText
                      disableTypography
                      sx={{
@@ -71,7 +80,17 @@ function SideMenu() {
                </ListItemButton>
             </ListItem>
             <ListItem key={'receiptfy'} disablePadding>
-               <ListItemButton>
+               <ListItemButton
+                  sx={{
+                     ':hover': {
+                        backgroundColor: '#191414',
+                        borderRadius: '4px'
+                     }
+                  }}
+                  onClick={() =>
+                     window.open('https://receiptify.herokuapp.com/')
+                  }
+               >
                   <ListItemText
                      disableTypography
                      sx={{
@@ -84,7 +103,17 @@ function SideMenu() {
                </ListItemButton>
             </ListItem>
             <ListItem key={'about'} disablePadding>
-               <ListItemButton>
+               <ListItemButton
+                  sx={{
+                     ':hover': {
+                        backgroundColor: '#191414',
+                        borderRadius: '4px'
+                     }
+                  }}
+                  onClick={() =>
+                     navigate('/about')
+                  }
+               >
                   <ListItemText
                      disableTypography
                      sx={{
