@@ -2,12 +2,13 @@ import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Form, Input, Buttons, Button } from '../../components/Form'
 import StyledLink from '../../components/StyledLink'
-import { Alert, Box, Typography } from '@mui/material'
-import { TailSpin } from 'react-loader-spinner'
+import { Box, Typography, CircularProgress } from '@mui/material'
 import { styles } from '../../components/GlobalStyles'
 import { api } from '../../services/api'
 import { AxiosError } from 'axios'
 import { ToastContainer, toast } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
+import logo from '../../../favicon/logo.png'
 
 export interface UserData {
    name: string
@@ -30,13 +31,32 @@ function SignUp() {
       e.preventDefault()
 
       if (passwordConfirm !== userData.password) {
-         return alert('Password does not match')
+         return toast.warn('Password does not match', {
+            position: 'top-right',
+            autoClose: 1800,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: false,
+            draggable: false,
+            progress: undefined,
+            theme: 'dark'
+         })
       }
 
       try {
          setButton(false)
          setInput(false)
          await api.createUser({ ...userData })
+         toast.success('User created!', {
+            position: 'top-right',
+            autoClose: 1800,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: false,
+            draggable: false,
+            progress: undefined,
+            theme: 'dark'
+         })
          navigate('/')
       } catch (e: Error | AxiosError | any) {
          registerError(e)
@@ -48,69 +68,86 @@ function SignUp() {
    }
 
    function registerError(e: Error | AxiosError | any) {
-      <Alert severity='error'>`${e.response.data}`</Alert>
+      toast.warn(`${e.response.data}`, {
+         position: 'top-right',
+         autoClose: 1800,
+         hideProgressBar: false,
+         closeOnClick: true,
+         pauseOnHover: false,
+         draggable: false,
+         progress: undefined,
+         theme: 'dark'
+      })
       setButton(true)
       setInput(true)
    }
 
    return (
       <Box sx={styles.container}>
-         <Typography sx={styles.title} variant='h4' component='h1'>
-            Get Started
-         </Typography>
-         <Form onSubmit={register}>
-            <Input
-               required
-               active={input}
-               type='name'
-               placeholder='name'
-               name='name'
-               onChange={handleInput}
-               value={userData.name}
+         <Box
+            sx={styles.logoContainer}
+         >
+            <img
+               src={logo}
+               alt='Album Tracker logo'
+               width='400px'
+               height='400px'
             />
-            <Input
-               required
-               active={input}
-               type='email'
-               placeholder='email'
-               name='email'
-               onChange={handleInput}
-               value={userData.email}
-            />
-            <Input
-               required
-               active={input}
-               type='password'
-               placeholder='password'
-               name='password'
-               onChange={handleInput}
-               value={userData.password}
-            />
-            <Input
-               required
-               active={input}
-               type='password'
-               placeholder='confirm your password'
-               name='passwordConfirm'
-               onChange={e => setPasswordConfirm(e.target.value)}
-               value={passwordConfirm}
-            />
-            <Buttons>
-               <StyledLink to='/'>Have an account?</StyledLink>
-               <Button type='submit' active={button}>
-                  {button ? (
-                     'REGISTER'
-                  ) : (
-                     <TailSpin
-                        ariaLabel='loading-indicator'
-                        color='#FFFFFF'
-                        height={35}
-                        width={35}
-                     />
-                  )}
-               </Button>
-            </Buttons>
-         </Form>
+         </Box>
+         <Box sx={{ width: '30vw' }}>
+            <Typography sx={styles.title} variant='h4' component='h1'>
+               Get Started
+            </Typography>
+            <Form onSubmit={register}>
+               <Input
+                  required
+                  active={input}
+                  type='name'
+                  placeholder='name'
+                  name='name'
+                  onChange={handleInput}
+                  value={userData.name}
+               />
+               <Input
+                  required
+                  active={input}
+                  type='email'
+                  placeholder='email'
+                  name='email'
+                  onChange={handleInput}
+                  value={userData.email}
+               />
+               <Input
+                  required
+                  active={input}
+                  type='password'
+                  placeholder='password'
+                  name='password'
+                  onChange={handleInput}
+                  value={userData.password}
+               />
+               <Input
+                  required
+                  active={input}
+                  type='password'
+                  placeholder='confirm your password'
+                  name='passwordConfirm'
+                  onChange={e => setPasswordConfirm(e.target.value)}
+                  value={passwordConfirm}
+               />
+               <Buttons>
+                  <StyledLink to='/'>Have an account?</StyledLink>
+                  <Button type='submit' active={button}>
+                     {button ? (
+                        'REGISTER'
+                     ) : (
+                        <CircularProgress color='inherit' />
+                     )}
+                  </Button>
+               </Buttons>
+            </Form>
+         </Box>
+         <ToastContainer />
       </Box>
    )
 }

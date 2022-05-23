@@ -14,7 +14,7 @@ export interface List {
    album: {
       artist: string
       list: string
-      name: string 
+      name: string
       cover: string
    }
    albumId: string
@@ -84,7 +84,7 @@ function MainPage() {
                   <Typography
                      variant='h2'
                      component='h2'
-                     sx={styles.tableTitle}
+                     sx={{ ...styles.tableTitle, textAlign: 'center' }}
                   >
                      LISTENING
                   </Typography>
@@ -94,12 +94,28 @@ function MainPage() {
                   <Typography
                      variant='h2'
                      component='h2'
-                     sx={styles.tableTitle}
+                     sx={{ ...styles.tableTitle, textAlign: 'right' }}
                   >
                      TO LISTEN
                   </Typography>
                   <ToListenList albums={toListenList} />
                </Grid>
+               {listeningList.length === 0 &&
+                  listenedList.length === 0 &&
+                  toListenList.length === 0 && (
+                     <Box
+                        sx={{
+                           font: 'bold 40px Work Sans',
+                           color: '#1DB954',
+                           justifyContent: 'center',
+                           alignItems: 'center',
+                           margin: '0 auto'
+                        }}
+                     >
+                        Your lists are empty.
+                        <br /> Try search an album!
+                     </Box>
+                  )}
             </Grid>
          ) : (
             <Box

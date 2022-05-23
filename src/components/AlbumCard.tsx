@@ -14,6 +14,8 @@ import {
 import { spotifyApi } from '../services/spotifyApi'
 import useAuth from '../hooks/useAuth'
 import { api } from '../services/api'
+import { toast, ToastContainer } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 
 export interface SimpleDialogProps {
    open: boolean
@@ -25,7 +27,6 @@ function SimpleDialog(props: SimpleDialogProps) {
 
    const handleListItemClick = (value: string) => {
       onClose(value)
-      console.log(value)
    }
 
    return (
@@ -88,6 +89,30 @@ export default function AlbumCard({ album }: any) {
             }
 
             api.saveAlbum(auth, albumData)
+               .then(() => {
+                  toast.success('Added album successfully!', {
+                     position: 'top-right',
+                     autoClose: 1800,
+                     hideProgressBar: false,
+                     closeOnClick: true,
+                     pauseOnHover: false,
+                     draggable: false,
+                     progress: undefined,
+                     theme: 'dark'
+                  })
+               })
+               .catch(() => {
+                  toast.error('Something went wrong, try again!', {
+                     position: 'top-right',
+                     autoClose: 1800,
+                     hideProgressBar: false,
+                     closeOnClick: true,
+                     pauseOnHover: false,
+                     draggable: false,
+                     progress: undefined,
+                     theme: 'dark'
+                  })
+               })
          })
          .catch(err => console.log(err))
    }
@@ -141,6 +166,7 @@ export default function AlbumCard({ album }: any) {
             </CardActionArea>
          </Card>
          <SimpleDialog open={open} onClose={handleClose} />
+         <ToastContainer />
       </>
    )
 }

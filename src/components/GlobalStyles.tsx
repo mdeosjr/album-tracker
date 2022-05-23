@@ -1,20 +1,34 @@
 export const styles = {
    container: {
-      margin: '0 auto',
-      width: '480px',
       height: '100vh',
       display: 'flex',
       alignItems: 'center',
+      justifyContent: 'space-between',
+      flexDirection: 'row'
+   },
+   logoContainer: {
+      display: 'flex',
+      width: '60vw',
+      minHeight: '100vh',
       justifyContent: 'center',
-      gap: '50px',
-      flexDirection: 'column'
+      alignItems: 'center',
+      backgroundColor: '#110c0c'
    },
    title: {
       font: 'bold 50px Work Sans',
-      color: '#1DB954'
+      color: '#1DB954',
+      paddingBottom: '15px'
    },
    button: {
       color: '#1DB954'
+   },
+   sideMenuList: {
+      width: '100%',
+      paddingTop: '78px',
+      display: 'flex',
+      flexDirection: 'column',
+      alignItems: 'flex-start',
+      gap: '25px'
    },
    searchIcon: {
       fontSize: 30,
