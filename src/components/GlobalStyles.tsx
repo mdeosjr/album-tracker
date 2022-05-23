@@ -47,6 +47,7 @@ export const styles = {
       marginBottom: '2.5vh'
    },
    listContainer: {
+      width: '100%',
       display: 'flex',
       flexDirection: 'column',
       gap: '1vh'
@@ -54,7 +55,10 @@ export const styles = {
    cardAlbum: {
       backgroundColor: '#000000',
       border: '1px solid #1DB954',
-      display: 'flex'
+      display: 'flex',
+      position: 'relative',
+      width: '23vw',
+      height: '10vh'
    },
    cardAlbumName: {
       font: 'italic 24px Work Sans',

@@ -84,7 +84,7 @@ function MainPage() {
                   <Typography
                      variant='h2'
                      component='h2'
-                     sx={{ ...styles.tableTitle, textAlign: 'center' }}
+                     sx={styles.tableTitle}
                   >
                      LISTENING
                   </Typography>
@@ -94,7 +94,7 @@ function MainPage() {
                   <Typography
                      variant='h2'
                      component='h2'
-                     sx={{ ...styles.tableTitle, textAlign: 'right' }}
+                     sx={styles.tableTitle}
                   >
                      TO LISTEN
                   </Typography>
@@ -109,7 +109,8 @@ function MainPage() {
                            color: '#1DB954',
                            justifyContent: 'center',
                            alignItems: 'center',
-                           margin: '0 auto'
+                           margin: '0 auto',
+                           paddingRight: '120px'
                         }}
                      >
                         Your lists are empty.

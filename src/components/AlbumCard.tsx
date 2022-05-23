@@ -101,8 +101,8 @@ export default function AlbumCard({ album }: any) {
                      theme: 'dark'
                   })
                })
-               .catch(() => {
-                  toast.error('Something went wrong, try again!', {
+               .catch((e) => {
+                  toast.error(`${e.response.data}`, {
                      position: 'top-right',
                      autoClose: 1800,
                      hideProgressBar: false,
