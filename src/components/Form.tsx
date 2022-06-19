@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 
 interface ActiveProps {
-   active: boolean;
+   active: boolean
 }
 
 const Form = styled.form`
@@ -34,7 +34,7 @@ const Input = styled.input<ActiveProps>`
    }
 `
 
-const Button = styled.a<ActiveProps>`
+const Button = styled.button<ActiveProps>`
    all: unset;
    width: 100%;
    height: 48px;

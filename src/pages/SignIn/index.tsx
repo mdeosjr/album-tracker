@@ -112,7 +112,13 @@ function SignIn() {
                   <Typography sx={styles.cardArtistName}>
                      - or continue with -
                   </Typography>
-                  <Button active={button} href={AUTH_URI}>
+                  <Button
+                     active={button}
+                     onClick={e => {
+                        e.preventDefault()
+                        window.location.href = AUTH_URI
+                     }}
+                  >
                      <img src={spotifyLogo} alt='Spotify Logo' />
                   </Button>
                </Buttons>
@@ -122,6 +128,6 @@ function SignIn() {
          <ToastContainer />
       </Box>
    )
-}  
+}
 
 export default SignIn
