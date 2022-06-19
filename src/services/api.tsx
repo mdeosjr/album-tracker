@@ -41,11 +41,16 @@ async function deleteUserAlbum(token: string | null, albumId: string) {
    return axios.delete(`${BASE_URL}/delete-album/${albumId}`, config)
 }
 
+async function spotifyUser(code: string | null) {
+   return axios.post(`${BASE_URL}/users/oauth`, { code })
+}
+
 export const api = {
    createUser,
    login,
    validateToken,
    saveAlbum,
    getUserAlbums,
-   deleteUserAlbum
+   deleteUserAlbum,
+   spotifyUser
 }

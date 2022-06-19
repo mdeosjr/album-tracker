@@ -6,6 +6,7 @@ import { useNavigate } from 'react-router-dom'
 import SideMenu from '../../components/SideMenu'
 import MainPage from '../../components/MainPage'
 import { Box } from '@mui/material'
+import { toast } from 'react-toastify'
 
 function Home() {
    const { auth, getApiToken } = useAuth()
@@ -17,9 +18,28 @@ function Home() {
             apiToken().then(res =>
                res.json().then(data => getApiToken(data.access_token))
             )
+            toast.success('Welcome!', {
+               position: 'top-right',
+               autoClose: 1800,
+               hideProgressBar: false,
+               closeOnClick: true,
+               pauseOnHover: false,
+               draggable: false,
+               progress: undefined,
+               theme: 'dark'
+            })
          })
          .catch(err => {
-            alert('Session expired, please log in again!')
+            toast.warn('Session expired, please log in again', {
+               position: 'top-right',
+               autoClose: 1800,
+               hideProgressBar: false,
+               closeOnClick: true,
+               pauseOnHover: false,
+               draggable: false,
+               progress: undefined,
+               theme: 'dark'
+            })
             navigate('/')
          })
    }, [])

@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 
 interface ActiveProps {
-   active: boolean;
+   active: boolean
 }
 
 const Form = styled.form`
@@ -36,7 +36,7 @@ const Input = styled.input<ActiveProps>`
 
 const Button = styled.button<ActiveProps>`
    all: unset;
-   width: 180px;
+   width: 100%;
    height: 48px;
    display: flex;
    justify-content: center;
@@ -48,14 +48,20 @@ const Button = styled.button<ActiveProps>`
    cursor: pointer;
    ${props => !props.active && 'pointer-events: none;'}
    ${props => !props.active && 'opacity: 0.7;'}
+   img {
+      width: 4.5vw;
+      height: 2.5vh;
+   }
 `
 
 const Buttons = styled.div`
    width: 100%;
    display: flex;
-   flex-direction: row;
+   flex-direction: column;
    justify-content: space-between;
+   gap: 25px;
    align-items: center;
+   margin: 40px 0px 80px;
 `
 
 export { Form, Input, Button, Buttons }

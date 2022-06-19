@@ -17,7 +17,7 @@ export const styles = {
    title: {
       font: 'bold 50px Work Sans',
       color: '#1DB954',
-      paddingBottom: '15px'
+      paddingBottom: '100px'
    },
    button: {
       color: '#1DB954'
