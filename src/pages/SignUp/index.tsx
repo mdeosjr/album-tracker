@@ -84,9 +84,7 @@ function SignUp() {
 
    return (
       <Box sx={styles.container}>
-         <Box
-            sx={styles.logoContainer}
-         >
+         <Box sx={styles.logoContainer}>
             <img
                src={logo}
                alt='Album Tracker logo'
@@ -94,7 +92,14 @@ function SignUp() {
                height='400px'
             />
          </Box>
-         <Box sx={{ width: '30vw' }}>
+         <Box
+            sx={{
+               width: '30vw',
+               display: 'flex',
+               flexDirection: 'column',
+               alignItems: 'center'
+            }}
+         >
             <Typography sx={styles.title} variant='h4' component='h1'>
                Get Started
             </Typography>
@@ -136,7 +141,6 @@ function SignUp() {
                   value={passwordConfirm}
                />
                <Buttons>
-                  <StyledLink to='/'>Have an account?</StyledLink>
                   <Button type='submit' active={button}>
                      {button ? (
                         'REGISTER'
@@ -145,6 +149,7 @@ function SignUp() {
                      )}
                   </Button>
                </Buttons>
+               <StyledLink to='/'>Have an account?</StyledLink>
             </Form>
          </Box>
          <ToastContainer />

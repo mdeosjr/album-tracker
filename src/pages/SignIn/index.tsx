@@ -8,6 +8,7 @@ import useAuth from '../../hooks/useAuth'
 import { api } from '../../services/api'
 import { AxiosError } from 'axios'
 import logo from '../../../favicon/logo.png'
+import spotifyLogo from '../../assets/spotifyLogo.png'
 import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 
@@ -25,6 +26,11 @@ function SignIn() {
    const [button, setButton] = useState(true)
    let navigate = useNavigate()
    const { signIn } = useAuth()
+   const AUTH_URI = `https://accounts.spotify.com/authorize?client_id=${
+      import.meta.env.VITE_CLIENT_ID
+   }&response_type=code&redirect_uri=${
+      import.meta.env.VITE_REDIRECT_URI
+   }&scope=user-read-email`
 
    async function login(e: React.FormEvent) {
       e.preventDefault()
@@ -69,9 +75,16 @@ function SignIn() {
                height='400px'
             />
          </Box>
-         <Box sx={{ width: '30vw' }}>
+         <Box
+            sx={{
+               width: '30vw',
+               display: 'flex',
+               flexDirection: 'column',
+               alignItems: 'center'
+            }}
+         >
             <Typography sx={styles.title} variant='h4' component='h1'>
-               Log in
+               Welcome back!
             </Typography>
             <Form onSubmit={login}>
                <Input
@@ -93,16 +106,22 @@ function SignIn() {
                   value={userData.password}
                />
                <Buttons>
-                  <StyledLink to='/sign-up'>Not registered?</StyledLink>
                   <Button type='submit' active={button}>
                      {button ? 'LOG IN' : <CircularProgress color='inherit' />}
                   </Button>
+                  <Typography sx={styles.cardArtistName}>
+                     - or continue with -
+                  </Typography>
+                  <Button active={button} href={AUTH_URI}>
+                     <img src={spotifyLogo} alt='Spotify Logo' />
+                  </Button>
                </Buttons>
             </Form>
+            <StyledLink to='/sign-up'>Not registered?</StyledLink>
          </Box>
          <ToastContainer />
       </Box>
    )
-}
+}  
 
 export default SignIn

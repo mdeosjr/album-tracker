@@ -31,6 +31,7 @@ export function AuthProvider({ children }: Props) {
    function signOut() {
       setAuth(null)
       localStorage.removeItem('AUTH')
+      localStorage.removeItem('API_TOKEN')
    }
 
    function getApiToken(token: string) {
