@@ -15,16 +15,6 @@ function Redirect() {
       try {
          const { data } = await api.spotifyUser(code)
          signIn(data)
-         toast.success('Welcome!', {
-            position: 'top-right',
-            autoClose: 1800,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: false,
-            draggable: false,
-            progress: undefined,
-            theme: 'dark'
-         })
          navigate('/home')
       } catch (e) {
          toast.warn('Something went wrong, try again later', {
