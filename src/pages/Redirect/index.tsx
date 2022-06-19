@@ -10,6 +10,7 @@ function Redirect() {
    const code = urlParams.get('code')
    let navigate = useNavigate()
    const { signIn } = useAuth()
+   window.history.replaceState(null, '', '/redirect')
 
    async function createSpotifyUser() {
       try {
